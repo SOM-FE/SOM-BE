@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class QuestionController(private val questionService: QuestionService) {
+class QuestionController(
+	private val questionService: QuestionService
+	) {
 
 	@GetMapping("/questions", produces= ["application/json"])
 	fun getQuestions(): ResponseEntity<Any>{
