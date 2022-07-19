@@ -9,5 +9,4 @@ class SomApplicationTests {
 	@Test
 	fun contextLoads() {
 	}
-
 }

@@ -8,26 +8,22 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class QuestionController {
-	@Autowired
-	private lateinit var questionService: QuestionService
+class QuestionController(private val questionService: QuestionService) {
 
-	//모든 질문 조회
 	@GetMapping("/questions", produces= ["application/json"])
 	fun getQuestions(): ResponseEntity<Any>{
 		return ResponseEntity.ok().body(questionService.getQuestions())
 	}
 
-	//질문 등록
 	@PostMapping("/question")
 	fun createQuestion(@RequestBody createQuestionDTO: CreateQuestionDTO): ResponseEntity<Any>{
 		questionService.createQuestion(createQuestionDTO)
 		return ResponseEntity.ok().body(true)
 	}
 
-	//랜덤 api
 	@GetMapping("/question/{target}")
-	fun randomQuestion(@PathVariable(name = "target") target: Target ): ResponseEntity<Any>{
-		return ResponseEntity.ok().body(questionService.randomQuestion(target));
+	fun randomQuestion(@PathVariable(name = "target") target: String ): ResponseEntity<Any>{
+		var targetName: Target = Target.valueOf(target.uppercase())
+		return ResponseEntity.ok().body(questionService.randomQuestion(targetName));
 	}
 }
