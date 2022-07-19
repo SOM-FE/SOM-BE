@@ -6,3 +6,9 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/som_be?useSSL=false&serverTimezone=Asia/Seoul&CharacterEncoding=UTF-8
+    username: root
+    password: root
