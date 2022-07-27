@@ -1,7 +1,7 @@
 package com.smu.som.controller
 
-import com.smu.som.dto.CreateQuestionDTO
-import com.smu.som.entities.Target
+import com.smu.som.domain.question.dto.CreateQuestionDTO
+import com.smu.som.domain.question.entities.Target
 import com.smu.som.service.QuestionService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

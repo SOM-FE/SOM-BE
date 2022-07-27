@@ -1,6 +1,6 @@
-package com.smu.som.dto
+package com.smu.som.domain.question.dto
 
-import com.smu.som.entities.Target;
+import com.smu.som.domain.question.entities.Target;
 
 class ReadQuestionDTO(
 	val id: Long? = null,

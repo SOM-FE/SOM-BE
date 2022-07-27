@@ -1,7 +1,7 @@
-package com.smu.som.entities
+package com.smu.som.domain.question.entities
 
-import com.smu.som.dto.CreateQuestionDTO
-import com.smu.som.dto.ReadQuestionDTO
+import com.smu.som.domain.question.dto.CreateQuestionDTO
+import com.smu.som.domain.question.dto.ReadQuestionDTO
 import javax.persistence.*
 
 @Entity

@@ -1,9 +1,9 @@
 package com.smu.som.service
 
-import com.smu.som.dto.CreateQuestionDTO
-import com.smu.som.dto.ReadQuestionDTO
-import com.smu.som.entities.Target
-import com.smu.som.repositories.QuestionRepository
+import com.smu.som.domain.question.dto.CreateQuestionDTO
+import com.smu.som.domain.question.dto.ReadQuestionDTO
+import com.smu.som.domain.question.entities.Target
+import com.smu.som.domain.question.repositories.QuestionRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
