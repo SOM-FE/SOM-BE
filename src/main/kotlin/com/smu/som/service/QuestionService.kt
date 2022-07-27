@@ -8,22 +8,22 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class QuestionService(private val questionRepository: QuestionRepository) {
+@Transactional(readOnly = true)
+class QuestionService(
+	private val questionRepository: QuestionRepository
+) {
 
-	@Transactional(readOnly=true)
-	fun getQuestions(): List<ReadQuestionDTO>{
+	fun getQuestions(): List<ReadQuestionDTO> {
 		val question = questionRepository.findAll()
 		return question.map { it.toReadQuestionDTO() }
 	}
 
-	@Transactional(readOnly=true)
-	fun createQuestion(createQuestionDTO: CreateQuestionDTO): CreateQuestionDTO{
+	fun createQuestion(createQuestionDTO: CreateQuestionDTO): CreateQuestionDTO {
 		val question = questionRepository.save(createQuestionDTO.toEntity())
 		return question.toCreateQuestionDTO()
 	}
 
-	@Transactional(readOnly=true)
-	fun randomQuestion(target: Target): String{
+	fun randomQuestion(target: Target): String {
 		val question = questionRepository.findAllByTarget(target)
 		val count = question.count()
 		val range = (1 until count)

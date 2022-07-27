@@ -7,5 +7,4 @@ class ReadQuestionDTO(
 	val target: Target,
 	val category: String,
 	val question: String
-) {
-}
+)

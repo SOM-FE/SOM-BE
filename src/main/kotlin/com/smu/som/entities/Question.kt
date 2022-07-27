@@ -6,14 +6,14 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "question")
-class Question (
+class Question(
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	val id: Long? = null,
 	@Enumerated(EnumType.STRING)
 	val target: Target,
 	val category: String,
 	val question: String
-){
+) {
 	fun toReadQuestionDTO(): ReadQuestionDTO {
 		return ReadQuestionDTO(
 			id = id,

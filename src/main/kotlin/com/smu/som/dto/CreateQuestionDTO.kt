@@ -8,10 +8,10 @@ class CreateQuestionDTO(
 	val category: String,
 	val question: String
 ) {
-	fun toEntity(): Question{
+	fun toEntity(): Question {
 		return Question(
 			target = target,
-			category= category,
+			category = category,
 			question = question
 		)
 	}
