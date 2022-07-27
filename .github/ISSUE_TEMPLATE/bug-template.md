@@ -1,5 +1,5 @@
 ---
-name: 'Issue: BUG TEMPLATE'  
+name: 'BUG TEMPLATE'  
 about: 버그용 이슈 템플릿입니다.  
 title: "명사형으로 제목 작성"  
 labels: "🐛 버그"  
