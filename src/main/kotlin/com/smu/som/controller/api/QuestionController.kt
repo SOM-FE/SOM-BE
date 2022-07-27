@@ -1,4 +1,4 @@
-package com.smu.som.controller
+package com.smu.som.controller.api
 
 import com.smu.som.domain.question.dto.CreateQuestionDTO
 import com.smu.som.domain.question.entities.Target
