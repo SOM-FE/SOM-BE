@@ -1,4 +1,4 @@
-package com.smu.som.service
+package com.smu.som.domain.question.service
 
 import com.smu.som.domain.question.dto.CreateQuestionDTO
 import com.smu.som.domain.question.dto.ReadQuestionDTO

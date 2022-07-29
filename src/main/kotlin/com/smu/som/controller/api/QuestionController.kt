@@ -2,7 +2,7 @@ package com.smu.som.controller.api
 
 import com.smu.som.domain.question.dto.CreateQuestionDTO
 import com.smu.som.domain.question.entities.Target
-import com.smu.som.service.QuestionService
+import com.smu.som.domain.question.service.QuestionService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
