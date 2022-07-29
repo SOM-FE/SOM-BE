@@ -1,5 +1,5 @@
 ---
-name: 'Issue: REFACTOR TEMPLATE'  
+name: 'REFACTOR TEMPLATE'  
 about: 리팩토링용 이슈 템플릿입니다.  
 title: "명사형으로 제목 작성"  
 labels: "♻️ 리팩토링"  
