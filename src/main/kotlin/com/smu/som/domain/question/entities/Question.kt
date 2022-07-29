@@ -1,19 +1,19 @@
-package com.smu.som.entities
+package com.smu.som.domain.question.entities
 
-import com.smu.som.dto.CreateQuestionDTO
-import com.smu.som.dto.ReadQuestionDTO
+import com.smu.som.domain.question.dto.CreateQuestionDTO
+import com.smu.som.domain.question.dto.ReadQuestionDTO
 import javax.persistence.*
 
 @Entity
 @Table(name = "question")
-class Question (
+class Question(
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	val id: Long? = null,
 	@Enumerated(EnumType.STRING)
 	val target: Target,
 	val category: String,
 	val question: String
-){
+) {
 	fun toReadQuestionDTO(): ReadQuestionDTO {
 		return ReadQuestionDTO(
 			id = id,
