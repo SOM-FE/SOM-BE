@@ -5,5 +5,6 @@ import com.smu.som.domain.question.entities.Target
 import org.springframework.data.repository.CrudRepository
 
 interface QuestionRepository : CrudRepository<Question, Long> {
-	fun findAllByTarget(target: Target): List<Question>
+	fun findByTargetOrTarget(target: Target, target2: Target): List<Question>
+	fun findQuestionById(id: Long): String
 }

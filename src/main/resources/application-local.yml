@@ -9,6 +9,11 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/som_be?useSSL=false&serverTimezone=Asia/Seoul&CharacterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3307/som_be?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul&CharacterEncoding=UTF-8
     username: root
     password: root
+
+server:
+  servlet:
+    session:
+      timeout=3600:
