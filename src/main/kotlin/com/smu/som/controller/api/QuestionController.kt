@@ -33,12 +33,14 @@ class QuestionController(
 				session.setAttribute("index", 0)
 			}
 
-			var idx: Int = session.getAttribute("index") as Int
-			var questionList: MutableList<Long> = session.getAttribute("question") as MutableList<Long>
-			var question: String = questionService.getQuestion(questionList[idx])
-
-			if(questionList.size-1 > idx)	session.setAttribute("index", idx+1)
-			else	session.setAttribute("index", -1)
+			val idx: Int = session.getAttribute("index") as Int
+			val questionList: MutableList<Long> = session.getAttribute("question") as MutableList<Long>
+			val question: String = questionService.getQuestion(questionList[idx])
+			var value = -1
+			if(questionList.size-1 > idx) {
+				value = idx + 1
+			}
+			session.setAttribute("index", value)
 
 			return ResponseEntity.ok().body(question)
 		} catch (e: Exception) {
@@ -49,13 +51,13 @@ class QuestionController(
 
 	@GetMapping("/question/finish")
 	fun questionDelete(session: HttpSession): ResponseEntity<Any> {
-		try {
+		return try {
 			session.removeAttribute("index")
 			session.removeAttribute("question")
-			return ResponseEntity.ok().body(null)
+			ResponseEntity.ok().body(null)
 		} catch (e: Exception) {
 			e.printStackTrace()
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
 		}
 	}
 }
