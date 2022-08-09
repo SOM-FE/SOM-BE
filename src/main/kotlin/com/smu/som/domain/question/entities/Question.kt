@@ -8,17 +8,15 @@ import javax.persistence.*
 @Table(name = "question")
 class Question(
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	val id: Long? = null,
+	val id: Long = 0,
 	@Enumerated(EnumType.STRING)
-	val target: Target,
-	val category: String,
-	val question: String
+	var target: Target,
+	var question: String
 ) {
 	fun toReadQuestionDTO(): ReadQuestionDTO {
 		return ReadQuestionDTO(
 			id = id,
 			target = target,
-			category = category,
 			question = question
 		)
 	}
@@ -26,7 +24,6 @@ class Question(
 	fun toCreateQuestionDTO(): CreateQuestionDTO {
 		return CreateQuestionDTO(
 			target = target,
-			category = category,
 			question = question
 		)
 	}
