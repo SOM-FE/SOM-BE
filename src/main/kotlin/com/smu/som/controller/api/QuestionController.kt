@@ -20,13 +20,18 @@ class QuestionController(
 
 	@PostMapping("/question")
 	fun createQuestion(@RequestBody createQuestionDTO: CreateQuestionDTO): ResponseEntity<Any> {
-		questionService.createQuestion(createQuestionDTO)
-		return ResponseEntity.ok().body(null)
+		return try{
+			questionService.createQuestion(createQuestionDTO)
+			ResponseEntity.ok().body(null)
+		} catch (e: Exception){
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
+		}
+
 	}
 
 	@GetMapping("/question/{target}")
 	fun randomQuestion(@PathVariable(name = "target") target: String, session: HttpSession): ResponseEntity<Any> {
-		try {
+		return try {
 			val targetName: Target = Target.valueOf(target.uppercase())
 			if(session.getAttribute("index") == null || session.getAttribute("index") == -1) {
 				var questionNoList = questionService.randomQuestion(targetName)
@@ -43,10 +48,10 @@ class QuestionController(
 			}
 			session.setAttribute("index", value)
 
-			return ResponseEntity.ok().body(question)
+			ResponseEntity.ok().body(question)
 		} catch (e: Exception) {
 			e.printStackTrace()
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
 		}
 	}
 
