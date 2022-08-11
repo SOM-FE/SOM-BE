@@ -1,7 +1,7 @@
 package com.smu.som.domain.question.dto
 
-import com.smu.som.domain.question.entities.Question
-import com.smu.som.domain.question.entities.Target;
+import com.smu.som.domain.question.entity.Question
+import com.smu.som.domain.question.entity.Target;
 
 class CreateQuestionDTO(
 	var target: Target,

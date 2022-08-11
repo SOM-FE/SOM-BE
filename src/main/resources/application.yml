@@ -5,4 +5,4 @@ spring:
 server:
   servlet:
     session:
-      timeout=3600:
+      timeout: 3600 # 1시간

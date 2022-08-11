@@ -1,6 +1,6 @@
 package com.smu.som.domain.question.dto
 
-import com.smu.som.domain.question.entities.Target;
+import com.smu.som.domain.question.entity.Target;
 
 class ReadQuestionDTO(
 	var id: Long,

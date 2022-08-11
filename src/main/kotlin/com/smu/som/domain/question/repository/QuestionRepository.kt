@@ -1,7 +1,7 @@
-package com.smu.som.domain.question.repositories
+package com.smu.som.domain.question.repository
 
-import com.smu.som.domain.question.entities.Question
-import com.smu.som.domain.question.entities.Target
+import com.smu.som.domain.question.entity.Question
+import com.smu.som.domain.question.entity.Target
 import org.springframework.data.repository.CrudRepository
 
 interface QuestionRepository : CrudRepository<Question, Long> {

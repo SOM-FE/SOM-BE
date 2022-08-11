@@ -4,8 +4,8 @@ import com.smu.som.controller.error.BusinessException
 import com.smu.som.controller.error.ErrorCode
 import com.smu.som.domain.question.dto.CreateQuestionDTO
 import com.smu.som.domain.question.dto.ReadQuestionDTO
-import com.smu.som.domain.question.entities.Target
-import com.smu.som.domain.question.repositories.QuestionRepository
+import com.smu.som.domain.question.entity.Target
+import com.smu.som.domain.question.repository.QuestionRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,7 +23,7 @@ class QuestionService(
 	@Transactional(readOnly = true)
 	fun getQuestion(id: Long): String {
 		val question = questionRepository.findByIdOrNull(id)
-			?: throw BusinessException(ErrorCode.QUESTION_NOT_FOUNT)
+			?: throw BusinessException(ErrorCode.QUESTION_NOT_FOUND)
 
 		return question.question
 	}
