@@ -1,4 +1,4 @@
-package com.smu.som.domain.question.entities
+package com.smu.som.domain.question.entity
 
 import com.smu.som.domain.question.dto.CreateQuestionDTO
 import com.smu.som.domain.question.dto.ReadQuestionDTO
