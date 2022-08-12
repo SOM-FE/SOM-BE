@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 class ExceptionHandler {
 	@ExceptionHandler(BusinessException::class)
 	fun handleBaseException(e: BusinessException): ResponseEntity<ErrorResponse> {
-		Logger.error(e.message)
+		Logger.error(e.errorCode.message)
 		return ResponseEntity.status(e.errorCode.status).body(ErrorResponse.of(e.errorCode))
 	}
 
