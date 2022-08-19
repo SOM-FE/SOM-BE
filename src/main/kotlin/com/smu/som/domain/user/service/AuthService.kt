@@ -19,19 +19,21 @@ class AuthService(
 	private val jwtService: JwtService
 ) {
 	@Transactional
-	fun signUp(oAuth2DTO: SignUpRequestDTO): SignUpResponseDTO {
+	fun signUp(signUpRequestDTO: SignUpRequestDTO): SignUpResponseDTO {
 		val oAuth2User = oAuth2ServiceFactory
-			.getOAuthService(Oauth2Provider.valueOf(oAuth2DTO.oauth2Provider.uppercase()))
-			.getOAuth2User(oAuth2DTO.oauth2AccessToken)
+			.getOAuthService(Oauth2Provider.valueOf(signUpRequestDTO.oauth2Provider.uppercase()))
+			.getOAuth2User(signUpRequestDTO.oauth2AccessToken)
 
 		if (userService.existsByOauth2Id(oAuth2User.oauth2Id)) {
 			throw BusinessException(ErrorCode.USER_DUPLICATED)
 		}
 
-		val savedUser: User = userService.saveUser(User.of(oAuth2User))
+		val savedUser: User = userService.saveUser(
+			User.of(oAuth2User, signUpRequestDTO.maritalStatus, signUpRequestDTO.date)
+		)
 
 		return SignUpResponseDTO(
-			jwtToken = jwtService.issue(oAuth2DTO),
+			jwtToken = jwtService.issue(signUpRequestDTO),
 			oauth2Id = savedUser.oauth2Id
 		)
 	}

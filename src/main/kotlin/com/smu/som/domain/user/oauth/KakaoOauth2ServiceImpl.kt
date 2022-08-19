@@ -53,12 +53,14 @@ class KakaoOauth2ServiceImpl(
 			.asText()
 		val gender = kakao_account.get("gender").asText().uppercase()
 		val ageRange = kakao_account.get("age_range").asText()
+		val email = kakao_account.get("email").asText()
 
 		return Oauth2UserDTO(
 			oauth2Id = "$PROVIDER_KAKAO_PREFIX:$oAuth2Id",
 			nickname = nickname,
 			ageRange = ageRange,
-			gender = gender
+			gender = gender,
+			email = email
 		)
 	}
 }
