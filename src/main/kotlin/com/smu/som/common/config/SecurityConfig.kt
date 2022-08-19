@@ -13,12 +13,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 class SecurityConfig(
-	private val jwtResolver: JwtResolver)
-{
+	private val jwtResolver: JwtResolver
+) {
 	@Bean
 	fun webSecurityCustomizer(): WebSecurityCustomizer? {
-		return WebSecurityCustomizer {
-			web: WebSecurity -> web.ignoring().antMatchers("/api/auth/**")
+		return WebSecurityCustomizer { web: WebSecurity ->
+			web.ignoring().antMatchers("/api/auth/**")
 		}
 	}
 
