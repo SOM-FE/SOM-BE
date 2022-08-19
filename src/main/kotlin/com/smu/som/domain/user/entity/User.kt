@@ -32,7 +32,7 @@ class User(
 			return User(
 				oauth2Id = oAuth2User.oauth2Id,
 				ageRange = oAuth2User.ageRange,
-				gender = Gender.valueOf(oAuth2User.gender),
+				gender = oAuth2User.gender,
 				nickname = oAuth2User.nickname,
 				email = oAuth2User.email,
 				maritalStatus = maritalStatus,
