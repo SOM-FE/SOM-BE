@@ -1,7 +1,7 @@
 package com.smu.som.domain.user.entity
 
 import com.smu.som.domain.user.dto.Oauth2UserDTO
-import java.time.LocalDate
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -22,13 +22,13 @@ class User(
 
 	var email: String?,
 
-	var maritalStatus: Boolean = false,
+	var maritalStatus: Boolean? = null,
 
-	var date: LocalDate? = null
+	var anniversary: Date? = null
 
 ) {
 	companion object {
-		fun of(oAuth2User: Oauth2UserDTO, maritalStatus: Boolean, date: LocalDate?): User {
+		fun of(oAuth2User: Oauth2UserDTO, maritalStatus: Boolean?, anniversary: Date?): User {
 			return User(
 				oauth2Id = oAuth2User.oauth2Id,
 				ageRange = oAuth2User.ageRange,
@@ -36,7 +36,7 @@ class User(
 				nickname = oAuth2User.nickname,
 				email = oAuth2User.email,
 				maritalStatus = maritalStatus,
-				date = date
+				anniversary = anniversary
 			)
 		}
 	}

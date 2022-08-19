@@ -1,7 +1,7 @@
 package com.smu.som.domain.user.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import java.time.LocalDate
+import java.util.*
 
 data class SignUpRequestDTO (
 	@JsonProperty("oauth2Provider")
@@ -10,7 +10,9 @@ data class SignUpRequestDTO (
 	@JsonProperty("oauth2AccessToken")
 	val oauth2AccessToken: String,
 
-	val maritalStatus: Boolean,
+	@JsonProperty("maritalStatus")
+	val maritalStatus: Boolean? = null,
 
-	val date: LocalDate
+	@JsonProperty("anniversary")
+	val anniversary: Date? = null
 )

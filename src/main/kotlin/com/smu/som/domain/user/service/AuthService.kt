@@ -29,7 +29,7 @@ class AuthService(
 		}
 
 		val savedUser: User = userService.saveUser(
-			User.of(oAuth2User, signUpRequestDTO.maritalStatus, signUpRequestDTO.date)
+			User.of(oAuth2User, signUpRequestDTO.maritalStatus, signUpRequestDTO.anniversary)
 		)
 
 		return SignUpResponseDTO(
