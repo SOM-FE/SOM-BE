@@ -13,7 +13,7 @@ class OAuth2ServiceFactory(
 	fun getOAuthService(authorizationServer: Oauth2Provider): OAuth2Service {
 		return when (authorizationServer) {
 			Oauth2Provider.KAKAO -> KakaoOauth2ServiceImpl(restTemplate, objectMapper)
-			Oauth2Provider.NAVER -> NaverOauth2ServiceImpl()
+			Oauth2Provider.NAVER -> NaverOauth2ServiceImpl(restTemplate, objectMapper)
 		}
 	}
 }
