@@ -5,6 +5,7 @@ import com.smu.som.domain.user.oauth.OAuth2ServiceFactory
 import com.smu.som.controller.error.BusinessException
 import com.smu.som.controller.error.ErrorCode
 import com.smu.som.domain.user.dto.JwtTokenDTO
+import com.smu.som.domain.user.dto.SignInRequestDTO
 import com.smu.som.domain.user.dto.SignUpRequestDTO
 import com.smu.som.domain.user.entity.Oauth2Provider
 import com.smu.som.domain.user.entity.User
@@ -17,10 +18,10 @@ class JwtService (
 	private val userService: UserService,
 	private val oAuth2ServiceFactory: OAuth2ServiceFactory
 	){
-	fun issue(oauth2DTO: SignUpRequestDTO): JwtTokenDTO {
+	fun issue(oauth2Provider: String, oauth2AccessToken: String): JwtTokenDTO {
 		val oAuth2Id: String = oAuth2ServiceFactory
-			.getOAuthService(Oauth2Provider.valueOf(oauth2DTO.oauth2Provider.uppercase()))
-			.getOAuth2User(oauth2DTO.oauth2AccessToken)
+			.getOAuthService(Oauth2Provider.valueOf(oauth2Provider.uppercase()))
+			.getOAuth2User(oauth2AccessToken)
 			.oauth2Id
 
 		val user: User = userService.findByOauth2Id(oAuth2Id)

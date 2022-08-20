@@ -7,10 +7,12 @@ import com.smu.som.domain.user.dto.Oauth2UserDTO
 import com.smu.som.common.util.Constants.Companion.PROVIDER_KAKAO_PREFIX
 import com.smu.som.controller.error.BusinessException
 import com.smu.som.controller.error.ErrorCode
+import com.smu.som.domain.user.entity.Gender
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestTemplate
 
 class KakaoOauth2ServiceImpl(
@@ -25,11 +27,15 @@ class KakaoOauth2ServiceImpl(
 	}
 
 	private fun getProfileInfoFromProvider(oAuth2AccessToken: String): JsonNode {
-		val response: ResponseEntity<String> = restTemplate.postForEntity(
-			KAKAO_USER_INFO_URI,
-			buildRequest(oAuth2AccessToken),
-			String::class.java
-		)
+		val response: ResponseEntity<String> = try {
+			restTemplate.postForEntity(
+				KAKAO_USER_INFO_URI,
+				buildRequest(oAuth2AccessToken),
+				String::class.java)
+		} catch (e: HttpClientErrorException) {
+			throw BusinessException(ErrorCode.OAUTH2_FAIL_EXCEPTION)
+		}
+
 		return try {
 			objectMapper.readTree(response.body)
 		} catch (e: JsonProcessingException) {
@@ -51,7 +57,7 @@ class KakaoOauth2ServiceImpl(
 			.get("profile")
 			.get("nickname")
 			.asText()
-		val gender = kakao_account.get("gender").asText().uppercase()
+		val gender = Gender.valueOf(kakao_account.get("gender").asText().uppercase())
 		val ageRange = kakao_account.get("age_range").asText()
 		val email = kakao_account.get("email").asText()
 

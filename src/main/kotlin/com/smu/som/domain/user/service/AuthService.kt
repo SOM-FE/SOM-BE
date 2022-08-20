@@ -4,6 +4,8 @@ import com.smu.som.common.jwt.service.JwtService
 import com.smu.som.domain.user.oauth.OAuth2ServiceFactory
 import com.smu.som.controller.error.BusinessException
 import com.smu.som.controller.error.ErrorCode
+import com.smu.som.domain.user.dto.JwtTokenDTO
+import com.smu.som.domain.user.dto.SignInRequestDTO
 import com.smu.som.domain.user.dto.SignUpRequestDTO
 import com.smu.som.domain.user.dto.SignUpResponseDTO
 import com.smu.som.domain.user.entity.Oauth2Provider
@@ -33,8 +35,12 @@ class AuthService(
 		)
 
 		return SignUpResponseDTO(
-			jwtToken = jwtService.issue(signUpRequestDTO),
+			jwtToken = jwtService.issue(signUpRequestDTO.oauth2Provider, signUpRequestDTO.oauth2AccessToken),
 			oauth2Id = savedUser.oauth2Id
 		)
 	}
+
+	fun signin(signInRequestDTO: SignInRequestDTO): JwtTokenDTO =
+		jwtService.issue(signInRequestDTO.oauth2Provider, signInRequestDTO.oauth2AccessToken)
+
 }
