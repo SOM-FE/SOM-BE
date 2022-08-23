@@ -9,20 +9,26 @@ import javax.persistence.*
 class Question(
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	val id: Long = 0,
-	@Column(nullable = false)
+
 	@Enumerated(EnumType.STRING)
 	var target: Target,
-	@Column(nullable = false)
+
 	var question: String,
-	@Column(nullable = false, length = 1)
-	var adult_status: String
+
+	@Enumerated(EnumType.STRING)
+	var category: Category,
+
+	@Column(length = 1) // y or n
+	var isAdult: String
+
 ) {
 	fun toReadQuestionDTO(): ReadQuestionDTO {
 		return ReadQuestionDTO(
 			id = id,
 			target = target,
 			question = question,
-			adult_status = adult_status
+			isAdult = isAdult,
+			category = category
 		)
 	}
 
@@ -30,7 +36,8 @@ class Question(
 		return CreateQuestionDTO(
 			target = target,
 			question = question,
-			adult_status = adult_status
+			isAdult = isAdult,
+			category = category
 		)
 	}
 }
