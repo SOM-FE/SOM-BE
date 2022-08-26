@@ -2,7 +2,7 @@ package com.smu.som.domain.user.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-class SignInRequestDTO (
+data class SignInRequestDTO (
 	@JsonProperty("oauth2Provider")
 	val oauth2Provider: String,
 
