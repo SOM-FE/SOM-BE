@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.nio.charset.StandardCharsets
 import java.security.Key
+import java.util.*
 import javax.servlet.http.HttpServletRequest
 
 @Component
@@ -42,6 +43,15 @@ class JwtResolver(
 
 	fun resolveRefreshToken(request: HttpServletRequest): String {
 		return request.getHeader(REFRESH_TOKEN_HEADER)
+	}
+
+	fun isExpired(token: String, date :Date): Boolean {
+		return try {
+			val claims: Jws<Claims> = parseToken(token)
+			!claims.body.expiration.before(date)
+		} catch (e: Exception) {
+			false
+		}
 	}
 
 	fun parseToken(token: String): Jws<Claims> {
