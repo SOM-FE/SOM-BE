@@ -35,12 +35,17 @@ dependencies {
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("mysql:mysql-connector-java")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	//test mock
 	testImplementation("com.ninja-squad:springmockk:3.1.1")
+	//auth
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+	//jwt
 	implementation("io.jsonwebtoken:jjwt-api:0.11.2")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
+	//redis
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 }
 
 tasks.withType<KotlinCompile> {
