@@ -41,6 +41,14 @@ class AuthController(
 		return ResponseEntity.ok().body(authService.refresh(refreshToken))
 	}
 
+	@PostMapping("/logout")
+	fun logout(request: HttpServletRequest): ResponseEntity<Any> {
+		val refreshToken = jwtResolver.resolveRefreshToken(request)
+		val accessToken = jwtResolver.resolveAccessToken(request)
+		authService.logout(refreshToken, accessToken)
+		return ResponseEntity.ok().body(null)
+	}
+
 	private fun isValidSignUpRequest(signUpRequestDTO: SignUpRequestDTO): Boolean {
 		if (signUpRequestDTO.anniversary != null && signUpRequestDTO.maritalStatus == null) {
 			return false
