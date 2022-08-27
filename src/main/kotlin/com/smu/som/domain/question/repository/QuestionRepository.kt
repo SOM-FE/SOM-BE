@@ -1,10 +1,12 @@
 package com.smu.som.domain.question.repository
 
+import com.smu.som.domain.question.entity.Category
 import com.smu.som.domain.question.entity.Question
 import com.smu.som.domain.question.entity.Target
 import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.query.Param
 
 interface QuestionRepository : CrudRepository<Question, Long> {
-	fun findByTargetOrTarget(target: Target, target2: Target): List<Question>
-	fun findQuestionById(id: Long): String
+	fun findByTargetInAndCategory(@Param("targets") targets: List<Target>, category: Category): List<Question>
+	fun findByTargetInAndCategoryAndIsAdult(@Param("targets") targets: List<Target>, category: Category, isAdult: String): List<Question>
 }

@@ -1,12 +1,14 @@
 package com.smu.som.controller.api
 
+import com.smu.som.common.annotation.CurrentUser
 import com.smu.som.domain.question.dto.CreateQuestionDTO
+import com.smu.som.domain.question.entity.Category
 import com.smu.som.domain.question.entity.Target
 import com.smu.som.domain.question.service.QuestionService
+import com.smu.som.domain.user.entity.User
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import javax.servlet.http.HttpSession
 
 @RestController
 @RequestMapping("/api")
@@ -29,38 +31,17 @@ class QuestionController(
 
 	}
 
-	@GetMapping("/question/{target}")
-	fun randomQuestion(@PathVariable(name = "target") target: String, session: HttpSession): ResponseEntity<Any> {
+	@GetMapping("/question/{target}/{category}")
+	fun randomQuestion(
+		@PathVariable(name = "target") target: String,
+		@PathVariable(name = "category") category: String,
+		@CurrentUser user: User
+	): ResponseEntity<Any> {
 		return try {
 			val targetName: Target = Target.valueOf(target.uppercase())
-			if(session.getAttribute("index") == null || session.getAttribute("index") == -1) {
-				var questionNoList = questionService.randomQuestion(targetName)
-				session.setAttribute("question", questionNoList)
-				session.setAttribute("index", 0)
-			}
-
-			val idx: Int = session.getAttribute("index") as Int
-			val questionList: MutableList<Long> = session.getAttribute("question") as MutableList<Long>
-			val question: String = questionService.getQuestion(questionList[idx])
-			var value = -1
-			if(questionList.size-1 > idx) {
-				value = idx + 1
-			}
-			session.setAttribute("index", value)
-
-			ResponseEntity.ok().body(question)
-		} catch (e: Exception) {
-			e.printStackTrace()
-			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
-		}
-	}
-
-	@GetMapping("/question/finish")
-	fun questionDelete(session: HttpSession): ResponseEntity<Any> {
-		return try {
-			session.removeAttribute("index")
-			session.removeAttribute("question")
-			ResponseEntity.ok().body(null)
+			val categoryName: Category = Category.valueOf(category.uppercase())
+			val isAdult: Boolean = !user.ageRange?.get(0)?.equals("0")!! || !user.ageRange?.get(0)?.equals("1")!!
+			ResponseEntity.ok().body(questionService.randomQuestion(targetName, categoryName, isAdult))
 		} catch (e: Exception) {
 			e.printStackTrace()
 			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)

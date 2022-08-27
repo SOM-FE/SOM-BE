@@ -1,31 +1,22 @@
 package com.smu.som.domain.question.service
 
-import com.smu.som.controller.error.BusinessException
-import com.smu.som.controller.error.ErrorCode
 import com.smu.som.domain.question.dto.CreateQuestionDTO
 import com.smu.som.domain.question.dto.ReadQuestionDTO
+import com.smu.som.domain.question.entity.Category
+import com.smu.som.domain.question.entity.Question
 import com.smu.som.domain.question.entity.Target
 import com.smu.som.domain.question.repository.QuestionRepository
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional(readOnly = true)
 class QuestionService(
 	private val questionRepository: QuestionRepository
 ) {
-	@Transactional(readOnly = true)
 	fun getQuestions(): List<ReadQuestionDTO> {
 		val question = questionRepository.findAll()
 		return question.map { it.toReadQuestionDTO() }
-	}
-
-	@Transactional(readOnly = true)
-	fun getQuestion(id: Long): String {
-		val question = questionRepository.findByIdOrNull(id)
-			?: throw BusinessException(ErrorCode.QUESTION_NOT_FOUND)
-
-		return question.question
 	}
 
 	@Transactional
@@ -34,10 +25,16 @@ class QuestionService(
 		return question.toCreateQuestionDTO()
 	}
 
-	@Transactional(readOnly = true)
-	fun randomQuestion(target: Target): MutableList<Long> {
-		var question = questionRepository.findByTargetOrTarget(target, Target.COMMON)
-		var questionNoList = question.map { it.id }
-		return questionNoList.shuffled().toMutableList()
+	fun randomQuestion(target: Target, category: Category, isAdult: Boolean): List<String> {
+		var question: List<Question> = if(target == Target.PARENT || target == Target.CHILD) {
+			questionRepository.findByTargetInAndCategoryAndIsAdult(listOf(target, Target.COMMON, Target.FAMILY), category, "n")
+		} else {
+			if (isAdult) {
+				questionRepository.findByTargetInAndCategory(listOf(target, Target.COMMON), category)
+			} else {
+				questionRepository.findByTargetInAndCategoryAndIsAdult(listOf(target, Target.COMMON), category, "n")
+			}
+		}
+		return question.map{ it.question }.shuffled()
 	}
 }
