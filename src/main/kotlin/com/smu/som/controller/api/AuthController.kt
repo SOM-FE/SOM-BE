@@ -32,17 +32,13 @@ class AuthController(
 
 	@PostMapping("/signin")
 	fun signin(@RequestBody signInRequestDTO: SignInRequestDTO): ResponseEntity<JwtTokenDTO> {
-		return ResponseEntity.ok().body(
-			authService.signin(signInRequestDTO)
-		)
+		return ResponseEntity.ok().body(authService.signin(signInRequestDTO))
 	}
 
 	@PostMapping("/refresh")
 	fun refresh(request: HttpServletRequest): ResponseEntity<JwtTokenDTO> {
 		val refreshToken = jwtResolver.resolveRefreshToken(request)
-		return ResponseEntity.ok().body(
-			authService.refresh(refreshToken)
-		)
+		return ResponseEntity.ok().body(authService.refresh(refreshToken))
 	}
 
 	private fun isValidSignUpRequest(signUpRequestDTO: SignUpRequestDTO): Boolean {
