@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class JwtService (
+class JwtService(
 	private val jwtProvider: JwtProvider,
 	private val jwtResolver: JwtResolver,
 	private val userService: UserService,
 	private val oAuth2ServiceFactory: OAuth2ServiceFactory
-	){
+) {
 	fun issue(oauth2Provider: String, oauth2AccessToken: String): JwtTokenDTO {
 		val oAuth2Id: String = oAuth2ServiceFactory
 			.getOAuthService(Oauth2Provider.valueOf(oauth2Provider.uppercase()))
@@ -48,6 +48,12 @@ class JwtService (
 			localRefreshToken = jwtProvider.createRefreshToken()
 		}
 		return JwtTokenDTO(accessToken, localRefreshToken)
+	}
+
+	fun getRemainExpiry(token: String): Long {
+		val expiration = jwtResolver.parseToken(token).body.expiration
+		val now = Date()
+		return expiration.time - now.time
 	}
 
 	private fun isValidate(refreshToken: String): Boolean {
