@@ -2,7 +2,6 @@ package com.smu.som.common.config
 
 import com.smu.som.common.jwt.filter.JwtAuthenticationFilter
 import com.smu.som.common.jwt.util.JwtResolver
-import com.smu.som.infra.redis.RedisService
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
@@ -14,8 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 class SecurityConfig(
-	private val jwtResolver: JwtResolver,
-	private val redisService: RedisService
+	private val jwtResolver: JwtResolver
 ) {
 	@Bean
 	fun webSecurityCustomizer(): WebSecurityCustomizer? {
@@ -37,7 +35,7 @@ class SecurityConfig(
 			.antMatchers("/api/auth/signin", "/api/auth/refresh", "/api/auth/signup").permitAll()
 			.anyRequest().authenticated()
 			.and()
-			.addFilterBefore(JwtAuthenticationFilter(jwtResolver, redisService), UsernamePasswordAuthenticationFilter::class.java)
+			.addFilterBefore(JwtAuthenticationFilter(jwtResolver), UsernamePasswordAuthenticationFilter::class.java)
 		return http.build()
 	}
 }
