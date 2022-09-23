@@ -18,16 +18,12 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 class JwtAuthenticationFilter(
-	private val jwtResolver: JwtResolver,
-	private val redisService: RedisService
+	private val jwtResolver: JwtResolver
 ) : GenericFilterBean() {
 	override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
 		try {
 			val accessToken = jwtResolver.resolveAccessToken(request as HttpServletRequest)
 			jwtResolver.parseToken(accessToken)
-			if (isLogout(accessToken)) {
-				throw LogoutJwtException()
-			}
 			setAuthentication(accessToken)
 		} catch (e: ExpiredJwtException) {
 			sendErrorResponse(response as HttpServletResponse, ErrorCode.EXPIRED_JWT)
@@ -54,11 +50,5 @@ class JwtAuthenticationFilter(
 		response.status = errorCode.status.value()
 		response.contentType = MediaType.APPLICATION_JSON_VALUE
 		response.writer.write(mapper.writeValueAsString(errorResponse))
-	}
-
-	private fun isLogout(accessToken: String): Boolean {
-		redisService.getValue("${LOGOUT_ACCESS_TOKEN_PREFIX}:$accessToken")
-			?: return false
-		return true
 	}
 }
