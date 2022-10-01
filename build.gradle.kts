@@ -44,8 +44,8 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.11.2")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
-	//redis
-	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	//parameter store
+	implementation("com.coveo:spring-boot-parameter-store-integration:1.1.2")
 }
 
 tasks.withType<KotlinCompile> {
