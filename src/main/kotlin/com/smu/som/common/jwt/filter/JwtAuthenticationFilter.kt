@@ -3,10 +3,8 @@ package com.smu.som.common.jwt.filter
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.smu.som.common.jwt.exception.LogoutJwtException
 import com.smu.som.common.jwt.util.JwtResolver
-import com.smu.som.common.util.Constants.Companion.LOGOUT_ACCESS_TOKEN_PREFIX
 import com.smu.som.controller.error.ErrorCode
 import com.smu.som.controller.error.ErrorResponse
-import com.smu.som.infra.redis.RedisService
 import io.jsonwebtoken.ExpiredJwtException
 import org.springframework.http.MediaType
 import org.springframework.security.core.context.SecurityContextHolder

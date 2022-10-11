@@ -18,7 +18,8 @@ class SecurityConfig(
 	@Bean
 	fun webSecurityCustomizer(): WebSecurityCustomizer? {
 		return WebSecurityCustomizer { web: WebSecurity ->
-			web.ignoring().antMatchers("/api/auth/signin", "/api/auth/refresh", "/api/auth/signup")
+			web.ignoring().antMatchers("/api/auth/signin", "/api/auth/refresh", "/api/auth/signup",
+				"/api/questions", "/api/question/**")
 		}
 	}
 
