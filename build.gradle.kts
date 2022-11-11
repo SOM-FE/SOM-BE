@@ -46,6 +46,8 @@ dependencies {
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
 	//redis
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	//web socket
+	implementation("org.springframework.boot:spring-boot-starter-websocket")
 }
 
 tasks.withType<KotlinCompile> {

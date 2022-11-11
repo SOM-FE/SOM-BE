@@ -18,7 +18,7 @@ class SecurityConfig(
 	@Bean
 	fun webSecurityCustomizer(): WebSecurityCustomizer? {
 		return WebSecurityCustomizer { web: WebSecurity ->
-			web.ignoring().antMatchers("/api/auth/**")
+			web.ignoring().antMatchers("/api/auth/**", "/**", "/css/**", "/js/**")
 		}
 	}
 
