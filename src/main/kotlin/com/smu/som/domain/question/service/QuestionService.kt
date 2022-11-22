@@ -25,6 +25,19 @@ class QuestionService(
 		return question.toCreateQuestionDTO()
 	}
 
+	fun randomQuestion(target: Target, isAdult: Boolean): List<String> {
+		var question: List<Question> = if(target == Target.PARENT || target == Target.CHILD) {
+			questionRepository.findByTargetInAndIsAdult(listOf(target, Target.COMMON, Target.FAMILY), "n")
+		} else {
+			if (isAdult) {
+				questionRepository.findByTargetIn(listOf(target, Target.COMMON))
+			} else {
+				questionRepository.findByTargetInAndIsAdult(listOf(target, Target.COMMON), "n")
+			}
+		}
+		return question.map { it.question }.shuffled()
+	}
+
 	fun randomQuestion(target: Target, category: Category, isAdult: Boolean): List<String> {
 		var question: List<Question> = if(target == Target.PARENT || target == Target.CHILD) {
 			questionRepository.findByTargetInAndCategoryAndIsAdult(listOf(target, Target.COMMON, Target.FAMILY), category, "n")

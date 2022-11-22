@@ -31,6 +31,21 @@ class QuestionController(
 
 	}
 
+	@GetMapping("/question/{target}")
+	fun randomTargetQuestion(
+		@PathVariable(name = "target") target: String,
+		@CurrentUser user: User
+	): ResponseEntity<Any> {
+		return try{
+			val targetName: Target = Target.valueOf(target.uppercase())
+			val isAdult: Boolean = !user.ageRange?.get(0)?.equals("0")!! || !user.ageRange?.get(0)?.equals("1")!!
+			ResponseEntity.ok().body(questionService.randomQuestion(targetName, isAdult))
+		} catch (e: Exception) {
+			e.printStackTrace()
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
+		}
+	}
+
 	@GetMapping("/question/{target}/{category}")
 	fun randomQuestion(
 		@PathVariable(name = "target") target: String,
