@@ -1,11 +1,8 @@
 package com.smu.som.controller.api
 
-import com.smu.som.common.annotation.CurrentUser
-import com.smu.som.domain.question.dto.CreateQuestionDTO
 import com.smu.som.domain.question.entity.Category
 import com.smu.som.domain.question.entity.Target
 import com.smu.som.domain.question.service.QuestionService
-import com.smu.som.domain.user.entity.User
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -18,17 +15,6 @@ class QuestionController(
 	@GetMapping("/questions", produces = ["application/json"])
 	fun getQuestions(): ResponseEntity<Any> {
 		return ResponseEntity.ok().body(questionService.getQuestions())
-	}
-
-	@PostMapping("/question")
-	fun createQuestion(@RequestBody createQuestionDTO: CreateQuestionDTO): ResponseEntity<Any> {
-		return try{
-			questionService.createQuestion(createQuestionDTO)
-			ResponseEntity.ok().body(null)
-		} catch (e: Exception){
-			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
-		}
-
 	}
 
 	@GetMapping("/question/{target}")
