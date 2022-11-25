@@ -19,7 +19,7 @@ class SecurityConfig(
 	fun webSecurityCustomizer(): WebSecurityCustomizer? {
 		return WebSecurityCustomizer { web: WebSecurity ->
 			web.ignoring().antMatchers("/api/auth/signin", "/api/auth/refresh", "/api/auth/signup",
-				"/api/questions", "/api/question/**")
+				"/api/questions", "/api/question/**", "/admin/**")
 		}
 	}
 
@@ -33,7 +33,7 @@ class SecurityConfig(
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.authorizeRequests()
-			.antMatchers("/api/auth/signin", "/api/auth/refresh", "/api/auth/signup").permitAll()
+			.antMatchers("/api/auth/signin", "/api/auth/refresh", "/api/auth/signup", "/admin/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.addFilterBefore(JwtAuthenticationFilter(jwtResolver), UsernamePasswordAuthenticationFilter::class.java)
