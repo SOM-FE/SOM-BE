@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.6.21"
 	kotlin("plugin.spring") version "1.6.21"
 	kotlin("plugin.jpa") version "1.6.21"
+	kotlin("kapt") version "1.7.10"
 }
 
 allOpen {
@@ -21,6 +22,7 @@ noArg {
 group = "com.smu"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
+val querydslVersion = "5.0.0"
 
 repositories {
 	mavenCentral()
@@ -46,6 +48,9 @@ dependencies {
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
 	//parameter store
 	implementation("com.coveo:spring-boot-parameter-store-integration:1.1.2")
+	//query dsl
+	implementation("com.querydsl:querydsl-jpa:$querydslVersion")
+	kapt("com.querydsl:querydsl-apt:$querydslVersion:jpa")
 }
 
 tasks.withType<KotlinCompile> {
