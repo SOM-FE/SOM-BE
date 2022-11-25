@@ -40,4 +40,11 @@ class Question(
 			category = category
 		)
 	}
+
+	fun update(createQuestionDTO: CreateQuestionDTO) {
+		target = createQuestionDTO.target
+		question = createQuestionDTO.question
+		category = createQuestionDTO.category
+		isAdult = createQuestionDTO.isAdult
+	}
 }
