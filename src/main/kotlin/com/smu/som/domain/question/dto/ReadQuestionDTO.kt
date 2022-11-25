@@ -14,7 +14,8 @@ class ReadQuestionDTO(
 	@JsonProperty("question")
 	var question: String,
 
-	@JsonProperty("isAdult")
+	@get:JsonProperty("isAdult")
+	@param:JsonProperty("isAdult")
 	var isAdult: String,
 
 	@JsonProperty("category")
