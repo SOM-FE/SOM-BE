@@ -19,7 +19,7 @@ class SecurityConfig(
 	fun webSecurityCustomizer(): WebSecurityCustomizer? {
 		return WebSecurityCustomizer { web: WebSecurity ->
 			web.ignoring().antMatchers("/api/auth/signin", "/api/auth/refresh", "/api/auth/signup",
-				"/api/questions", "/api/question/**", "/admin/**")
+				"/api/questions", "/api/question/**", "/admin/**", "/**", "/css/**", "/js/**", "/images/**")
 		}
 	}
 
