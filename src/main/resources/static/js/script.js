@@ -214,6 +214,23 @@ function addQuestionCheck(){
     $("#add-modal-footer").append('<button type="button" class="btn btn-danger close" data-bs-dismiss="modal">취소</button>')
 }
 
+// 로그인 여부 검사(비정상적인 접근 차단)
+function checkLogin(){
+    if(sessionStorage.getItem("login") == "success"){
+        return;
+    }
+    else{
+        window.location.href = "index.html";
+    }
+}
+
+// 로그 아웃
+function logout(){
+    sessionStorage.clear();
+    window.location.href = "index.html";
+}
+
 $(document).ready(function() {
     showTableAll(0, 1);
+    checkLogin();
 });
