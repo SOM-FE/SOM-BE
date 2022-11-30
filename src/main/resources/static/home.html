@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+
+        <!-- BootStrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/style.css">
+
+        <title>Admin Page</title>
+    </head>
+    <body>
+
+        <!-- navbar -->
+        <nav class="navbar navbar-expand-md navbar-light" style="padding: 0;">
+            <button class="navbar-toggler ml-auto mb-2 bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar">
+                <span class="navbar-toggle-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="sidebar">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- sidebar -->
+                        <div class="col-xl-2 col-lg-3 sidebar" style="position: fixed; width: 17%;">
+                            <a href="#" onclick="window.location.reload()" class="navbar-brand text-white text-center d-block mx-auto py-3 mb-4 bottom-border">SOM</a>
+                            <div class="bottom-border pb-3">
+                                <img src="images/admin.png" alt="" width="50" class="rounded-circle mr-3">
+                                <a href="#" class="text-white">SOM APP</a>
+                            </div>
+                            <ul class="navbar-nav flex-column mt-4">
+                                <!-- section1 -->
+                                <li class="nav-item">
+                                    <a href="#" id="section1link" class="nav-link text-white p-3 mb-2 current" onclick="onDisplay(1)">
+                                        <i class="fas fa-home text-white fa-lg mr-3"></i> 전체 조회
+                                    </a>
+                                </li>
+                                <!-- section2 -->
+                                <li class="nav-item">
+                                    <a href="#" id="section2link" class="nav-link text-white p-3 mb-2 sidebar-link" onclick="onDisplay(2)">
+                                        <i class="fas fa-user text-white fa-lg mr-3"></i> 카테고리별 조회
+                                    </a>
+                                </li>
+                                <!-- section3 -->
+                                <li class="nav-item">
+                                    <a href="#" id="section3link" class="nav-link text-white p-3 mb-2 sidebar-link" onclick="onDisplay(3)">
+                                        <i class="fas fa-table text-white fa-lg mr-3"></i> 단건 조회
+                                    </a>
+                                </li>
+                                <!-- section4 -->
+                                <li class="nav-item">
+                                    <a href="#" id="section4link" class="nav-link text-white p-3 mb-2 sidebar-link" onclick="onDisplay(4)">
+                                        <i class="fas fa-wrench text-white fa-lg mr-3"></i> 질문 추가
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- end of sidebar -->
+                        <!-- top navbar -->
+                        <div class="col-xl-10 col-lg-9 ml-auto bg-dark py-2 top-navbar" style="height: 62px; margin-left: 17%;">
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <h4 class="text-light text-uppercase mb-0">DASHBOARD</h4>
+                                </div>
+                                <div class="col-md-5">
+
+                                </div>
+                                <div class="col-md-3">
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item"></li>
+                                        <li class="nav-item"></li>
+                                        <li class="nav-item ms-md-auto">
+                                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#sign-out">
+                                                <i class="fas fa-sign-out-alt text-danger fa-lg"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- table -->
+                                <!-- section 1 -->
+                                <section id="section1">
+                                    <div class="container-fluid">
+                                        <div class="row mb-5">
+                                            <h3 class="text-muted text-center mt-3 mb-3">전체 조회</h3>
+                                            <table class="table bg-light text-center" style="width: 90%; margin: 0 auto;">
+                                                <thead>
+                                                    <tr class="text-muted">
+                                                        <th>#</th>
+                                                        <th>분류</th>
+                                                        <th>질문</th>
+                                                        <th>카테고리</th>
+                                                        <th>성인여부</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="questionList">
+                                                </tbody>
+                                            </table>
+
+                                            <!-- pagination -->
+                                            <nav style="margin-top: 20px;">
+                                                <ul class="pagination pagination-sm justify-content-center" id="section1_page">
+                                                </ul>
+                                            </nav>
+                                            <!-- end of pagination -->
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- section 2 -->
+                                <section id="section2">
+                                    <div class="container-fluid">
+                                        <div class="row mb-5 justify-content-between" style="width: 90%; margin: 0 auto;">
+                                            <h3 class="text-muted text-center mt-3 mb-3">카테고리별 조회</h3>
+                                            <select id="select_category" class="form-select" aria-label="Default select example" style="width: 80%;">
+                                                <option selected disabled value="0">------카테고리 선택------</option>
+                                                <option value="INDIVIDUAL">개인</option>
+                                                <option value="AFFECTION">애정</option>
+                                                <option value="COMMUNICATION">의사소통</option>
+                                                <option value="FINANCE">경제</option>
+                                                <option value="RELATIONSHIP">관계</option>
+                                                <option value="ROLE">역할</option>
+                                                <option value="UPBRINGING">양육</option>
+                                            </select>
+                                            <button type="button" class="btn btn-success" style="width: 10%;" onclick="showTableBySelect(0, 2)">조회</button>
+                                            <table class="table bg-light text-center" style="margin-top: 20px;">
+                                                <thead>
+                                                    <tr class="text-muted">
+                                                        <th>#</th>
+                                                        <th>분류</th>
+                                                        <th>질문</th>
+                                                        <th>카테고리</th>
+                                                        <th>성인여부</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="selectQuestionList">
+                                                </tbody>
+                                            </table>
+
+                                            <!-- pagination -->
+                                            <nav style="margin-top: 20px;">
+                                                <ul class="pagination justify-content-center" id="section2_page">
+                                                </ul>
+                                            </nav>
+                                            <!-- end of pagination -->
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- section 3 -->
+                                <section id="section3">
+                                    <div class="container-fluid">
+                                        <div class="row mb-5">
+                                            <h3 class="text-muted text-center mt-3 mb-3">단건 조회</h3>
+                                            <div id="question">
+
+                                            </div>
+                                            <div id="modify_select" style="margin: 0 auto; width: 90%; display: flex;">
+                                                <select id="modify_category" class="form-select" aria-label="Default select" style="width: 80%; margin-right: 5px;">
+                                                    <option selected disabled value="0">------카테고리 선택------</option>
+                                                    <option value="INDIVIDUAL">개인</option>
+                                                    <option value="AFFECTION">애정</option>
+                                                    <option value="COMMUNICATION">의사소통</option>
+                                                    <option value="FINANCE">경제</option>
+                                                    <option value="RELATIONSHIP">관계</option>
+                                                    <option value="ROLE">역할</option>
+                                                    <option value="UPBRINGING">양육</option>
+                                                </select>
+                                                <select id="modify_target" class="form-select" aria-label="Default select" style="width: 80%; margin: 0 5px;">
+                                                    <option selected disabled value="0">------분류 선택------</option>
+                                                    <option value="COMMON">공통</option>
+                                                    <option value="COUPLE">커플</option>
+                                                    <option value="MARRIED">기혼</option>
+                                                    <option value="FAMILY">가족_공통</option>
+                                                    <option value="PARENT">부모</option>
+                                                    <option value="CHILD">자녀</option>
+                                                </select>
+                                                <select id="modify_adult" class="form-select" aria-lael="Default select" style="width: 80%; margin-left: 5px;">
+                                                    <option selected disabled value="0">------성인여부 선택------</option>
+                                                    <option value="y">Y</option>
+                                                    <option value="n">N</option>
+                                                </select>
+                                            </div>
+                                            <div id="buttonGroup" style="margin: 20px auto; width: 50%; display: flex; justify-content: space-between;"></div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- section 4 -->
+                                <section id="section4">
+                                    <div class="container-fluid">
+                                        <div class="row mb-5">
+                                            <h3 class="text-muted text-center mt-3 mb-3">질문 추가</h3>
+                                            <div id="addQuestion">
+                                                <form style='display: flex;'>
+                                                    <textarea id='addQuestionArea' style='width: 80%; margin: 20px auto; padding: 7px;' rows='10' cols='10'></textarea>
+                                                </form>
+                                            </div>
+                                            <div id="add_select" style="margin: 0 auto; width: 90%; display: flex;">
+                                                <select id="add_category" class="form-select" aria-label="Default select" style="width: 80%; margin-right: 5px;">
+                                                    <option selected disabled value="0">------카테고리 선택------</option>
+                                                    <option value="INDIVIDUAL">개인</option>
+                                                    <option value="AFFECTION">애정</option>
+                                                    <option value="COMMUNICATION">의사소통</option>
+                                                    <option value="FINANCE">경제</option>
+                                                    <option value="RELATIONSHIP">관계</option>
+                                                    <option value="ROLE">역할</option>
+                                                    <option value="UPBRINGING">양육</option>
+                                                </select>
+                                                <select id="add_target" class="form-select" aria-label="Default select" style="width: 80%; margin: 0 5px;">
+                                                    <option selected disabled value="0">------분류 선택------</option>
+                                                    <option value="COMMON">공통</option>
+                                                    <option value="COUPLE">커플</option>
+                                                    <option value="MARRIED">기혼</option>
+                                                    <option value="FAMILY">가족_공통</option>
+                                                    <option value="PARENT">부모</option>
+                                                    <option value="CHILD">자녀</option>
+                                                </select>
+                                                <select id="add_adult" class="form-select" aria-lael="Default select" style="width: 80%; margin-left: 5px;">
+                                                    <option selected disabled value="0">------성인여부 선택------</option>
+                                                    <option value="y">Y</option>
+                                                    <option value="n">N</option>
+                                                </select>
+                                            </div>
+                                            <div style="margin: 20px auto; width: 50%; display: flex; justify-content: center;">
+                                                <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#add" onclick="addQuestionCheck()" style="width: 40%;">
+                                                    추가하기
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- end of table -->
+                            </div>
+                        </div>
+                        <!-- end of top navbar -->
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- end of navbar -->
+        <!-- modal -->
+        <!-- sign out -->
+        <div class="modal fade" id="sign-out">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Want to leave</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        Press logout to leave
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Stay here</button>
+                        <button onclick="logout()" type="button" class="btn btn-danger" data-bs-dismiss="modal">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of signout -->
+        <!-- check modify -->
+        <div class="modal fade" id="modify">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">정말 수정하시겠습니까?</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body" id="modal_modify">
+                    </div>
+                    <div id="modify-modal-footer" class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of check modify -->
+        <!-- check delete -->
+        <div class="modal fade" id="delete">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">정말 삭제하시겠습니까?</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                    </div>
+                    <div id="delete-modal-footer" class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of check delete -->
+        <!-- check add -->
+        <div class="modal fade" id="add">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">정말 추가하시겠습니까?</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                    </div>
+                    <div id="add-modal-body" class="modal-body"></div>
+                    <div id="add-modal-footer" class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of check add -->
+        <!-- end of modal -->
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/e6d11eb37e.js" crossorigin="anonymous"></script>
+        <script src="js/script.js"></script>
+        <script src="js/tab.js"></script>
+    </body>
+</html>
