@@ -40,7 +40,6 @@ class QuestionService(
 	fun updateQuestion(questionId: Long, createQuestionDTO: CreateQuestionDTO): ReadQuestionDTO {
 		val question = questionRepository.findByIdOrNull(questionId)
 			?: throw BusinessException(ErrorCode.QUESTION_NOT_FOUND)
-		print(createQuestionDTO.target)
 
 		question.update(createQuestionDTO)
 		return question.toReadQuestionDTO()
