@@ -18,8 +18,6 @@ class AdminController(
 	@PostMapping
 	fun createQuestion(@RequestBody createQuestionDTO: CreateQuestionDTO): ResponseEntity<Any> {
 		questionService.createQuestion(createQuestionDTO)
-		println("===")
-		println(createQuestionDTO.target)
 		return ResponseEntity.ok().body(null)
 	}
 
