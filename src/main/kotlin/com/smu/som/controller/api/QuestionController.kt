@@ -1,5 +1,6 @@
 package com.smu.som.controller.api
 
+import com.smu.som.domain.question.dto.GetUsedQuestionDTO
 import com.smu.som.domain.question.entity.Category
 import com.smu.som.domain.question.entity.Target
 import com.smu.som.domain.question.service.QuestionService
@@ -43,6 +44,19 @@ class QuestionController(
 			val categoryName: Category = Category.valueOf(category.uppercase())
 			val isAdult: Boolean = adult == "y" || adult == "Y"
 			ResponseEntity.ok().body(questionService.randomQuestion(targetName, categoryName, isAdult))
+		} catch (e: Exception) {
+			e.printStackTrace()
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
+		}
+	}
+
+	@PostMapping("/question/{kakaoid}")
+	fun myQuestion(
+		@PathVariable(name = "kakaoid") kakaoId: String,
+		@RequestBody getUsedQuestionDTO: GetUsedQuestionDTO
+	): ResponseEntity<Any> {
+		return try {
+			ResponseEntity.ok().body(questionService.addQuestionInMyPage(kakaoId, getUsedQuestionDTO))
 		} catch (e: Exception) {
 			e.printStackTrace()
 			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
