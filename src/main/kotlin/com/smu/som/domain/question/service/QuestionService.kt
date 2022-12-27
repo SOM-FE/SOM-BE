@@ -4,7 +4,6 @@ import com.smu.som.common.dto.PageResult
 import com.smu.som.controller.error.BusinessException
 import com.smu.som.controller.error.ErrorCode
 import com.smu.som.domain.question.dto.CreateQuestionDTO
-import com.smu.som.domain.question.dto.GetUsedQuestionDTO
 import com.smu.som.domain.question.dto.RandomQuestionDTO
 import com.smu.som.domain.question.dto.ReadQuestionDTO
 import com.smu.som.domain.question.dto.UsedQuestionDTO
@@ -17,6 +16,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import com.smu.som.domain.question.dto.GetUsedQuestionDTO
 
 @Service
 @Transactional(readOnly = true)
