@@ -62,4 +62,28 @@ class QuestionController(
 			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
 		}
 	}
+
+	@GetMapping("/question/{kakaoid}/used")
+	fun getUsedQuestion(
+		@PathVariable(name = "kakaoid") kakaoId: String
+	): ResponseEntity<Any> {
+		return try {
+			ResponseEntity.ok().body(questionService.getUsedQuestion(kakaoId))
+		} catch (e: Exception) {
+			e.printStackTrace()
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
+		}
+	}
+
+	@GetMapping("/question/{kakaoid}/pass")
+	fun getPassQuestion(
+		@PathVariable(name = "kakaoid") kakaoId: String
+	): ResponseEntity<Any> {
+		return try {
+			ResponseEntity.ok().body(questionService.getPassQuestion(kakaoId))
+		} catch (e: Exception) {
+			e.printStackTrace()
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
+		}
+	}
 }
