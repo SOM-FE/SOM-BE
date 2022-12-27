@@ -4,11 +4,14 @@ import com.smu.som.common.dto.PageResult
 import com.smu.som.controller.error.BusinessException
 import com.smu.som.controller.error.ErrorCode
 import com.smu.som.domain.question.dto.CreateQuestionDTO
+import com.smu.som.domain.question.dto.GetUsedQuestionDTO
 import com.smu.som.domain.question.dto.ReadQuestionDTO
+import com.smu.som.domain.question.dto.UsedQuestionDTO
 import com.smu.som.domain.question.entity.Category
 import com.smu.som.domain.question.entity.Question
 import com.smu.som.domain.question.entity.Target
 import com.smu.som.domain.question.repository.QuestionRepository
+import com.smu.som.domain.question.repository.UsedQuestionRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -17,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 class QuestionService(
-	private val questionRepository: QuestionRepository
+	private val questionRepository: QuestionRepository,
+	private val usedQuestionRepository: UsedQuestionRepository
 ) {
 	fun getQuestions(): List<ReadQuestionDTO> {
 		val question = questionRepository.findAll()
@@ -83,5 +87,19 @@ class QuestionService(
 			}
 		}
 		return question.map { it.question }.shuffled()
+	}
+
+	@Transactional
+	fun addQuestionInMyPage(kakaoId: String, getUsedQuestionDTO: GetUsedQuestionDTO): Boolean {
+		try {
+			for (i: Long in getUsedQuestionDTO.used)
+				usedQuestionRepository.save(UsedQuestionDTO(kakaoId, i, null).toEntity())
+			for (i: Long in getUsedQuestionDTO.pass)
+				usedQuestionRepository.save(UsedQuestionDTO(kakaoId, null, i).toEntity())
+		} catch (e: Exception) {
+			e.printStackTrace()
+			return false
+		}
+		return true
 	}
 }
