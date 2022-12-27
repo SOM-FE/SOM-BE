@@ -4,6 +4,7 @@ import com.smu.som.common.dto.PageResult
 import com.smu.som.controller.error.BusinessException
 import com.smu.som.controller.error.ErrorCode
 import com.smu.som.domain.question.dto.CreateQuestionDTO
+import com.smu.som.domain.question.dto.RandomQuestionDTO
 import com.smu.som.domain.question.dto.ReadQuestionDTO
 import com.smu.som.domain.question.entity.Category
 import com.smu.som.domain.question.entity.Question
@@ -59,8 +60,8 @@ class QuestionService(
 		return question.toCreateQuestionDTO()
 	}
 
-	fun randomQuestion(target: Target, isAdult: Boolean): List<String> {
-		var question: List<Question> = if (target == Target.PARENT || target == Target.CHILD) {
+	fun randomQuestion(target: Target, isAdult: Boolean): List<RandomQuestionDTO> {
+		var question: List<RandomQuestionDTO> = if (target == Target.PARENT || target == Target.CHILD) {
 			questionRepository.findByTargetInAndIsAdult(listOf(target, Target.COMMON, Target.FAMILY), "n")
 		} else {
 			if (isAdult) {
@@ -69,11 +70,11 @@ class QuestionService(
 				questionRepository.findByTargetInAndIsAdult(listOf(target, Target.COMMON), "n")
 			}
 		}
-		return question.map { it.question }.shuffled()
+		return question.shuffled()
 	}
 
-	fun randomQuestion(target: Target, category: Category, isAdult: Boolean): List<String> {
-		var question: List<Question> = if (target == Target.PARENT || target == Target.CHILD) {
+	fun randomQuestion(target: Target, category: Category, isAdult: Boolean): List<RandomQuestionDTO> {
+		var question: List<RandomQuestionDTO> = if (target == Target.PARENT || target == Target.CHILD) {
 			questionRepository.findByTargetInAndCategoryAndIsAdult(listOf(target, Target.COMMON, Target.FAMILY), category, "n")
 		} else {
 			if (isAdult) {
@@ -82,6 +83,6 @@ class QuestionService(
 				questionRepository.findByTargetInAndCategoryAndIsAdult(listOf(target, Target.COMMON), category, "n")
 			}
 		}
-		return question.map { it.question }.shuffled()
+		return question.shuffled()
 	}
 }
