@@ -23,7 +23,7 @@ class QuestionController(
 		@PathVariable(name = "target") target: String,
 		@RequestParam("isAdult") adult: String
 	): ResponseEntity<Any> {
-		return try{
+		return try {
 			val targetName: Target = Target.valueOf(target.uppercase())
 			val isAdult: Boolean = adult == "y" || adult == "Y"
 			ResponseEntity.ok().body(questionService.randomQuestion(targetName, isAdult))
@@ -63,24 +63,26 @@ class QuestionController(
 		}
 	}
 
-	@GetMapping("/question/{kakaoid}/used")
+	@GetMapping("/question/{kakaoid}/{target}/used")
 	fun getUsedQuestion(
-		@PathVariable(name = "kakaoid") kakaoId: String
+		@PathVariable(name = "kakaoid") kakaoId: String,
+		@PathVariable(name = "target") target: String
 	): ResponseEntity<Any> {
 		return try {
-			ResponseEntity.ok().body(questionService.getUsedQuestion(kakaoId))
+			ResponseEntity.ok().body(questionService.getUsedQuestion(kakaoId, Target.valueOf(target.uppercase())))
 		} catch (e: Exception) {
 			e.printStackTrace()
 			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
 		}
 	}
 
-	@GetMapping("/question/{kakaoid}/pass")
+	@GetMapping("/question/{kakaoid}/{target}/pass")
 	fun getPassQuestion(
-		@PathVariable(name = "kakaoid") kakaoId: String
+		@PathVariable(name = "kakaoid") kakaoId: String,
+		@PathVariable(name = "target") target: String
 	): ResponseEntity<Any> {
 		return try {
-			ResponseEntity.ok().body(questionService.getPassQuestion(kakaoId))
+			ResponseEntity.ok().body(questionService.getPassQuestion(kakaoId, Target.valueOf(target.uppercase())))
 		} catch (e: Exception) {
 			e.printStackTrace()
 			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)

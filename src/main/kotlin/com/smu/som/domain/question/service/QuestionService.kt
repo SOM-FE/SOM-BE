@@ -92,9 +92,6 @@ class QuestionService(
 	@Transactional
 	fun addQuestionInMyPage(kakaoId: String, getUsedQuestionDTO: GetUsedQuestionDTO): Boolean {
 		try {
-			if(usedQuestionRepository.existsByUserId(kakaoId)){
-				usedQuestionRepository.deleteByUserId(kakaoId)
-			}
 			for (i: Long in getUsedQuestionDTO.used)
 				usedQuestionRepository.save(UsedQuestionDTO(kakaoId, i, null).toEntity())
 			for (i: Long in getUsedQuestionDTO.pass)
@@ -106,19 +103,17 @@ class QuestionService(
 		return true
 	}
 
-	fun getUsedQuestion(kakaoId: String): List<ReadQuestionDTO> {
+	fun getUsedQuestion(kakaoId: String, target: Target): List<ReadQuestionDTO> {
 		val usedQuestion = usedQuestionRepository.findByUserIdAndUsedIsNotNull(kakaoId)
-		var ids: ArrayList<Long> = arrayListOf()
-		for(i: UsedQuestionDTO in usedQuestion)
-			i.used?.let { ids.add(it) }
+		val ids = usedQuestion.map { q -> q.used!! }
 		return questionRepository.findByIdIn(ids)
+			.filter { q -> q.target == target }
 	}
 
-	fun getPassQuestion(kakaoId: String): List<ReadQuestionDTO> {
+	fun getPassQuestion(kakaoId: String, target: Target): List<ReadQuestionDTO> {
 		val passQuestion = usedQuestionRepository.findByUserIdAndPassIsNotNull(kakaoId)
-		var ids: ArrayList<Long> = arrayListOf()
-		for(i: UsedQuestionDTO in passQuestion)
-			i.pass?.let { ids.add(it) }
+		val ids = passQuestion.map { q -> q.pass!! }
 		return questionRepository.findByIdIn(ids)
+			.filter { q -> q.target == target }
 	}
 }
