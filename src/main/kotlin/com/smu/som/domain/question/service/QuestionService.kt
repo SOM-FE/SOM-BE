@@ -8,7 +8,6 @@ import com.smu.som.domain.question.dto.RandomQuestionDTO
 import com.smu.som.domain.question.dto.ReadQuestionDTO
 import com.smu.som.domain.question.dto.UsedQuestionDTO
 import com.smu.som.domain.question.entity.Category
-import com.smu.som.domain.question.entity.Question
 import com.smu.som.domain.question.entity.Target
 import com.smu.som.domain.question.repository.QuestionRepository
 import com.smu.som.domain.question.repository.UsedQuestionRepository
@@ -93,6 +92,9 @@ class QuestionService(
 	@Transactional
 	fun addQuestionInMyPage(kakaoId: String, getUsedQuestionDTO: GetUsedQuestionDTO): Boolean {
 		try {
+			if(usedQuestionRepository.existsByUserId(kakaoId)){
+				usedQuestionRepository.deleteByUserId(kakaoId)
+			}
 			for (i: Long in getUsedQuestionDTO.used)
 				usedQuestionRepository.save(UsedQuestionDTO(kakaoId, i, null).toEntity())
 			for (i: Long in getUsedQuestionDTO.pass)
@@ -102,5 +104,21 @@ class QuestionService(
 			return false
 		}
 		return true
+	}
+
+	fun getUsedQuestion(kakaoId: String): List<ReadQuestionDTO> {
+		val usedQuestion = usedQuestionRepository.findByUserIdAndUsedIsNotNull(kakaoId)
+		var ids: ArrayList<Long> = arrayListOf()
+		for(i: UsedQuestionDTO in usedQuestion)
+			i.used?.let { ids.add(it) }
+		return questionRepository.findByIdIn(ids)
+	}
+
+	fun getPassQuestion(kakaoId: String): List<ReadQuestionDTO> {
+		val passQuestion = usedQuestionRepository.findByUserIdAndPassIsNotNull(kakaoId)
+		var ids: ArrayList<Long> = arrayListOf()
+		for(i: UsedQuestionDTO in passQuestion)
+			i.pass?.let { ids.add(it) }
+		return questionRepository.findByIdIn(ids)
 	}
 }
