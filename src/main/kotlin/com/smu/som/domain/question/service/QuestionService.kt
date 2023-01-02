@@ -107,13 +107,13 @@ class QuestionService(
 		val usedQuestion = usedQuestionRepository.findByUserIdAndUsedIsNotNull(kakaoId)
 		val ids = usedQuestion.map { q -> q.used!! }
 		return questionRepository.findByIdIn(ids)
-			.filter { q -> q.target == target }
+			.filter { q -> q.target == target || q.target == Target.COMMON}
 	}
 
 	fun getPassQuestion(kakaoId: String, target: Target): List<ReadQuestionDTO> {
 		val passQuestion = usedQuestionRepository.findByUserIdAndPassIsNotNull(kakaoId)
 		val ids = passQuestion.map { q -> q.pass!! }
 		return questionRepository.findByIdIn(ids)
-			.filter { q -> q.target == target }
+			.filter { q -> q.target == target || q.target == Target.COMMON}
 	}
 }

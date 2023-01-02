@@ -50,7 +50,7 @@ class QuestionController(
 		}
 	}
 
-	@PostMapping("/question/{kakaoid}")
+	@PostMapping("/question/{kakaoid}/{target}")
 	fun myQuestion(
 		@PathVariable(name = "kakaoid") kakaoId: String,
 		@RequestBody getUsedQuestionDTO: GetUsedQuestionDTO
