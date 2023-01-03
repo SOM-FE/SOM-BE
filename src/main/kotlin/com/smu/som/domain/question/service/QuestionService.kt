@@ -3,10 +3,7 @@ package com.smu.som.domain.question.service
 import com.smu.som.common.dto.PageResult
 import com.smu.som.controller.error.BusinessException
 import com.smu.som.controller.error.ErrorCode
-import com.smu.som.domain.question.dto.CreateQuestionDTO
-import com.smu.som.domain.question.dto.RandomQuestionDTO
-import com.smu.som.domain.question.dto.ReadQuestionDTO
-import com.smu.som.domain.question.dto.UsedQuestionDTO
+import com.smu.som.domain.question.dto.*
 import com.smu.som.domain.question.entity.Category
 import com.smu.som.domain.question.entity.Target
 import com.smu.som.domain.question.repository.QuestionRepository
@@ -15,13 +12,14 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import com.smu.som.domain.question.dto.GetUsedQuestionDTO
+import com.smu.som.domain.question.repository.PlayCountRepository
 
 @Service
 @Transactional(readOnly = true)
 class QuestionService(
 	private val questionRepository: QuestionRepository,
-	private val usedQuestionRepository: UsedQuestionRepository
+	private val usedQuestionRepository: UsedQuestionRepository,
+	private val playCountRepository: PlayCountRepository
 ) {
 	fun getQuestions(): List<ReadQuestionDTO> {
 		val question = questionRepository.findAll()
@@ -122,5 +120,29 @@ class QuestionService(
 		}
 		return questionRepository.findByIdIn(ids)
 			.filter { q -> q.target == target || q.target == Target.COMMON }
+	}
+
+	@Transactional
+	fun increasePlayCount(kakaoId: String, target: Target): Boolean {
+		var playCount: PlayCountDTO =
+		if(playCountRepository.existsByUserId(kakaoId)) {
+			playCountRepository.findByUserId(kakaoId)
+		}
+		else
+			PlayCountDTO(kakaoId, 0, 0, 0)
+
+		when(target) {
+			Target.COUPLE -> playCount.couple += 1
+			Target.MARRIED -> playCount.married += 1
+			Target.FAMILY -> playCount.family += 1
+			else -> return false
+		}
+		playCountRepository.deleteByUserId(kakaoId)
+		playCountRepository.save(playCount.toEntity())
+		return true
+	}
+
+	fun getPlayCount(kakaoId: String): PlayCountDTO {
+		return playCountRepository.findByUserId(kakaoId)
 	}
 }

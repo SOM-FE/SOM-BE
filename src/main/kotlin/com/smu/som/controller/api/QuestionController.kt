@@ -53,9 +53,11 @@ class QuestionController(
 	@PostMapping("/question/{kakaoid}/{target}")
 	fun myQuestion(
 		@PathVariable(name = "kakaoid") kakaoId: String,
+		@PathVariable(name = "target") target: String,
 		@RequestBody getUsedQuestionDTO: GetUsedQuestionDTO
 	): ResponseEntity<Any> {
 		return try {
+			questionService.increasePlayCount(kakaoId, Target.valueOf(target.uppercase()))
 			ResponseEntity.ok().body(questionService.addQuestionInMyPage(kakaoId, getUsedQuestionDTO))
 		} catch (e: Exception) {
 			e.printStackTrace()
@@ -87,5 +89,12 @@ class QuestionController(
 			e.printStackTrace()
 			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
 		}
+	}
+
+	@GetMapping("/question/playcount/{kakaoid}")
+	fun getPlayCount(
+		@PathVariable(name = "kakaoid") kakaoId: String
+	): ResponseEntity<Any> {
+		return ResponseEntity.ok().body(questionService.getPlayCount(kakaoId))
 	}
 }
