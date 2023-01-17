@@ -13,7 +13,7 @@ class AdminService(
 	private val adminRepository: AdminRepository,
 	private val passwordEncoder: PasswordEncoder
 ) {
-
+	//admin page login 성공 여부를 반환합니다.
 	fun login(loginRequestDTO: LoginRequestDTO): Boolean {
 		val admin = adminRepository.findByAdminId(loginRequestDTO.adminId)
 			?: return false
@@ -25,7 +25,9 @@ class AdminService(
 		return true
 	}
 
+	//DB에 저장되어 있는 admin 정보와 일치한지 validation을 진행합니다.
 	fun isValid(admin: Admin, password: String): Boolean {
+		//password는 BCrypt방식으로 암호화를 통해 비교를 진행합니다.
 		if (passwordEncoder.matches(password, admin.password)) {
 			return true
 		}

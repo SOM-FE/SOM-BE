@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.*
 class QuestionController(
 	private val questionService: QuestionService
 ) {
+	//모든 질문 목록을 가져와 반환하는 api
 	@GetMapping("/questions", produces = ["application/json"])
 	fun getQuestions(): ResponseEntity<Any> {
 		return ResponseEntity.ok().body(questionService.getQuestions())
 	}
-
+	//특정 관계별 질문 목록을 randomizing 하게 가져오는 api
 	@GetMapping("/question/{target}")
 	fun randomTargetQuestion(
 		@PathVariable(name = "target") target: String,
@@ -32,7 +33,7 @@ class QuestionController(
 			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
 		}
 	}
-
+	//특정 관계 및 카테고리별 질문 목록을 randomizing 하게 가져오는 api
 	@GetMapping("/question/{target}/{category}")
 	fun randomQuestion(
 		@PathVariable(name = "target") target: String,
@@ -49,7 +50,7 @@ class QuestionController(
 			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
 		}
 	}
-
+	//특정 게임에 이미 받은/패스한 질문을 등록하는 api
 	@PostMapping("/question/{kakaoid}/{target}")
 	fun myQuestion(
 		@PathVariable(name = "kakaoid") kakaoId: String,
@@ -64,7 +65,7 @@ class QuestionController(
 			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
 		}
 	}
-
+	//특정 유저가 플레이했던 관계별 받은 질문을 가져오는 api
 	@GetMapping("/question/{kakaoid}/{target}/used")
 	fun getUsedQuestion(
 		@PathVariable(name = "kakaoid") kakaoId: String,
@@ -77,7 +78,7 @@ class QuestionController(
 			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
 		}
 	}
-
+	//특정 유저가 플레이했던 관계별 패스한 질문을 가져오는 api
 	@GetMapping("/question/{kakaoid}/{target}/pass")
 	fun getPassQuestion(
 		@PathVariable(name = "kakaoid") kakaoId: String,
@@ -90,7 +91,7 @@ class QuestionController(
 			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
 		}
 	}
-
+	//특정 유저의 플레이 횟수를 가져오는 api
 	@GetMapping("/question/playcount/{kakaoid}")
 	fun getPlayCount(
 		@PathVariable(name = "kakaoid") kakaoId: String

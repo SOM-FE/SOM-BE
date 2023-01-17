@@ -2,6 +2,7 @@ package com.smu.som.common.dto
 
 import org.springframework.data.domain.Page
 
+//특정 DTO를 page화 시켜 return 하기 위해 page안에 담길 값 정의
 class PageResult<T>(
 	data: Page<T>
 ) {

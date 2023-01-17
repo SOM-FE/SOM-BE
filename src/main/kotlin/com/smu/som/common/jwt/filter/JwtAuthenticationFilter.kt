@@ -15,9 +15,11 @@ import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+//jwt를 통한 인증 요청 및 응답 시 사용될 filter 정의
 class JwtAuthenticationFilter(
 	private val jwtResolver: JwtResolver
 ) : GenericFilterBean() {
+	//token과 관련된 인증 처리 시 발생할 error에 대한 handler
 	override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
 		try {
 			val accessToken = jwtResolver.resolveAccessToken(request as HttpServletRequest)
@@ -36,11 +38,13 @@ class JwtAuthenticationFilter(
 		chain.doFilter(request, response)
 	}
 
+	//access token을 통한 인증 정보 set
 	private fun setAuthentication(accessToken: String) {
 		val authentication = jwtResolver.getAuthentication(accessToken)
 		SecurityContextHolder.getContext().authentication = authentication
 	}
 
+	//error response와 해당 HTTP 상태 코드를 response로 작성
 	private fun sendErrorResponse(response: HttpServletResponse, errorCode: ErrorCode) {
 		val errorResponse = ErrorResponse.of(errorCode)
 		val mapper = jacksonObjectMapper()

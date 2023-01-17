@@ -8,6 +8,7 @@ import javax.persistence.Column
 import javax.persistence.EntityListeners
 import javax.persistence.MappedSuperclass
 
+//기본적인 entity의 생성 및 최종수정일시를 기록하기 위한 정의
 @MappedSuperclass
 @EntityListeners(value = [AuditingEntityListener::class])
 abstract class BaseEntity {

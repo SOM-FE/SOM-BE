@@ -2,6 +2,7 @@ package com.smu.som.controller.error
 
 import org.springframework.http.HttpStatus
 
+//error code에 따른 message 정의
 enum class ErrorCode(
 	val status: HttpStatus,
 	val message: String

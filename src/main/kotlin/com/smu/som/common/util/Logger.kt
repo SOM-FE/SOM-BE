@@ -3,6 +3,7 @@ package com.smu.som.common.util
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+//Log를 찍기 위한 logger 정의
 class Logger {
 	companion object {
 		private val log : Logger get() = LoggerFactory.getLogger(this::class.java)

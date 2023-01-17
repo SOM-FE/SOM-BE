@@ -4,6 +4,7 @@ import com.smu.som.domain.user.entity.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
+//user table에 존재하는 상세 정보에 대한 return
 class UserDetailsImpl(
 	val user: User
 ) : UserDetails {

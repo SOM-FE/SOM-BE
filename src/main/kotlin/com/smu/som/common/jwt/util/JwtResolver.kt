@@ -18,6 +18,7 @@ import java.security.Key
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 
+//jwt token을 사용하기 위한 기본 setting
 @Component
 @Transactional(readOnly = true)
 class JwtResolver(
@@ -26,25 +27,31 @@ class JwtResolver(
 	@Value("\${jwt.refresh-token-header}") private val REFRESH_TOKEN_HEADER: String,
 	private val userDetailsService: UserDetailsServiceImpl
 ) {
+	//key는 암호화를 통해 보관합니다
 	private val key: Key = Keys.hmacShaKeyFor(SECRET_KEY.toByteArray(StandardCharsets.UTF_8))
 
+	//인증 정보를 통한 user detail을 가져옵니다
 	fun getAuthentication(token: String): Authentication {
 		val userDetails = userDetailsService.loadUserByUsername(getUserPk(token))
 		return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
 	}
 
+	//spring security를 이용하여 사용자의 정보를 찾습니다
 	fun getFromSecurityContextHolder(): UserDetailsImpl {
 		return SecurityContextHolder.getContext().authentication.principal as UserDetailsImpl
 	}
 
+	//access token을 위한 header 정보를 가져옵니다
 	fun resolveAccessToken(request: HttpServletRequest): String {
 		return request.getHeader(ACCESS_TOKEN_HEADER).replace("Bearer", "").trim()
 	}
 
+	//refresh token을 위한 header 정보를 가져옵니다
 	fun resolveRefreshToken(request: HttpServletRequest): String {
 		return request.getHeader(REFRESH_TOKEN_HEADER)
 	}
 
+	//token의 만료 여부를 검사합니다
 	fun isExpired(token: String, date :Date): Boolean {
 		return try {
 			val claims: Jws<Claims> = parseToken(token)
@@ -54,6 +61,7 @@ class JwtResolver(
 		}
 	}
 
+	//token을 parsing합니다
 	fun parseToken(token: String): Jws<Claims> {
 		return Jwts.parserBuilder()
 			.setSigningKey(key)
@@ -61,6 +69,7 @@ class JwtResolver(
 			.parseClaimsJws(token)
 	}
 
+	//user의 primary key를 가져옵니다
 	private fun getUserPk(token: String): String {
 		return try {
 			parseToken(token).body.subject

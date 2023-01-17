@@ -20,6 +20,7 @@ class RefreshServiceDB(
 	@Value("\${jwt.refresh-token-expiry}")
 	private val refreshTokenExpiry: Long = 0
 
+	//jwt token 정보를 받고 이를 refresh token으로 해당 id에 저장합니다
 	@Transactional
 	override fun storeRefresh(jwtToken: JwtTokenDTO, oauth2Id: String) {
 		refreshRepository.deleteByOauth2Id(oauth2Id)
@@ -31,6 +32,8 @@ class RefreshServiceDB(
 		)
 	}
 
+	//해당 refresh token을 검색하여 return 합니다
+	//중복된 token일 경우 기존 token을 삭제합니다
 	@Transactional
 	override fun getRefresh(refreshToken: String): String? {
 		val findRefreshToken = refreshRepository.findByRefreshToken(refreshToken)
@@ -43,6 +46,7 @@ class RefreshServiceDB(
 		return findRefreshToken.oauth2Id
 	}
 
+	//해당 refresh token을 삭제합니다
 	override fun deleteRefresh(refreshToken: String) {
 		val findRefreshToken = refreshRepository.findByRefreshToken(refreshToken)
 			?: throw BusinessException(ErrorCode.INVALID_REFRESH_TOKEN)
@@ -50,6 +54,7 @@ class RefreshServiceDB(
 		refreshRepository.delete(findRefreshToken)
 	}
 
+	//해당 token 정보가 중복되었는지에 대한 검사를 진행합니다
 	private fun isValidate(refreshToken: RefreshToken): Boolean {
 		val expiryDateTime = refreshToken.createdAt.plus(refreshTokenExpiry, ChronoUnit.MILLIS)
 		if (LocalDateTime.now().isAfter(expiryDateTime)) {

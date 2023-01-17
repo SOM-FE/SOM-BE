@@ -4,6 +4,7 @@ import com.smu.som.domain.user.dto.Oauth2UserDTO
 import java.util.*
 import javax.persistence.*
 
+//user의 정보를 table에 담기 위한 Entity
 @Entity
 @Table(name = "user")
 class User(

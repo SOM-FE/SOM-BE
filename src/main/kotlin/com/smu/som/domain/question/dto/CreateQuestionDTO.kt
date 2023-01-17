@@ -5,6 +5,7 @@ import com.smu.som.domain.question.entity.Category
 import com.smu.som.domain.question.entity.Question
 import com.smu.som.domain.question.entity.Target
 
+//질문 생성을 위한 DTO
 class CreateQuestionDTO(
 	@JsonProperty("target")
 	var target: Target,
@@ -19,6 +20,7 @@ class CreateQuestionDTO(
 	var category: Category
 
 ) {
+	//해당 DTO를 Entity화 시키는 함수
 	fun toEntity(): Question {
 		return Question(
 			target = target,
