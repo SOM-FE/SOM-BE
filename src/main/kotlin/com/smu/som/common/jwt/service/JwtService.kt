@@ -19,6 +19,7 @@ class JwtService(
 	private val userService: UserService,
 	private val oAuth2ServiceFactory: OAuth2ServiceFactory
 ) {
+	//access token을 통해 해당 유저의 정보를 불러옵니다
 	fun issue(oauth2Provider: String, oauth2AccessToken: String): JwtTokenDTO {
 		val oAuth2Id: String = oAuth2ServiceFactory
 			.getOAuthService(Oauth2Provider.valueOf(oauth2Provider.uppercase()))
@@ -37,6 +38,7 @@ class JwtService(
 		)
 	}
 
+	//해당 id에 저장된 user의 token 정보를 refresh 합니다
 	fun refresh(refreshToken: String, oauth2Id: String): JwtTokenDTO {
 		var localRefreshToken = refreshToken
 		if (isValidate(refreshToken)) {
@@ -50,17 +52,20 @@ class JwtService(
 		return JwtTokenDTO(accessToken, localRefreshToken)
 	}
 
+	//token의 남은 만료 기한을 return 합니다
 	fun getRemainExpiry(token: String): Long {
 		val expiration = jwtResolver.parseToken(token).body.expiration
 		val now = Date()
 		return expiration.time - now.time
 	}
-
+	
+	//token의 만료 여부를 검사합니다
 	private fun isValidate(refreshToken: String): Boolean {
 		val now = Date()
 		return !jwtResolver.isExpired(refreshToken, now)
 	}
 
+	//해당 toke이 refresh가 필요한지에 대한 여부를 검사합니다
 	private fun isRefreshable(refreshToken: String): Boolean {
 		val calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA)
 		calendar.time = Date()

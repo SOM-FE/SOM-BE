@@ -6,5 +6,6 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 interface QuestionRepositorySupport {
+	//지정된 category를 가져옴
 	fun findByCategory(category: Category, pageable: Pageable): Page<Question>
 }

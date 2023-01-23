@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets
 import java.security.Key
 import java.util.*
 
+//jwt token을 공급하기 위한 기본 setting
 @Component
 @Transactional(readOnly = true)
 class JwtProvider(
@@ -19,6 +20,7 @@ class JwtProvider(
 ) {
 	private val key: Key = Keys.hmacShaKeyFor(secretKey.toByteArray(StandardCharsets.UTF_8))
 
+	//access token을 생성합니다
 	fun createAccessToken(oAuth2Id: String): String {
 		val claims: Claims = Jwts.claims().setSubject(oAuth2Id)
 		val now = Date()
@@ -30,6 +32,7 @@ class JwtProvider(
 			.compact()
 	}
 
+	//refresh token을 생성합니다
 	fun createRefreshToken(): String {
 		val now = Date()
 		return Jwts.builder()

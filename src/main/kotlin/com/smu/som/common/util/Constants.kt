@@ -1,5 +1,6 @@
 package com.smu.som.common.util
 
+//사용할 상수 목록 정의
 class Constants {
 	companion object {
 		const val PROVIDER_KAKAO_PREFIX = "kakao"

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
+//query dsl을 사용하기 위한 정의
 @Configuration
 class QueryDslConfig {
  

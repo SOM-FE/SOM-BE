@@ -2,6 +2,7 @@ package com.smu.som.domain.question.entity
 
 import javax.persistence.*
 
+//user별 받은/패스한 질문을 저장하기 위한 DB table
 @Entity
 @Table(name = "used_question")
 class UsedQuestion(

@@ -1,8 +1,8 @@
 package com.smu.som.domain.question.entity
 
-import com.smu.som.domain.question.dto.PlayCountDTO
 import javax.persistence.*
 
+//user별 특정 관계에 대한 플레이 횟수를 저장하기 위한 DB table
 @Entity
 @Table(name = "play_count")
 class PlayCount(

@@ -13,10 +13,12 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
+//보안 관련 config
 @EnableWebSecurity
 class SecurityConfig(
 	private val jwtResolver: JwtResolver
 ) {
+	//해당 url로의 접근을 엽니다
 	@Bean
 	fun webSecurityCustomizer(): WebSecurityCustomizer? {
 		return WebSecurityCustomizer { web: WebSecurity ->
@@ -25,6 +27,7 @@ class SecurityConfig(
 		}
 	}
 
+	//jwt와 관련된 해당 url로의 접근을 엽니다
 	@Bean
 	fun filterChain(http: HttpSecurity?): SecurityFilterChain {
 		http!!
@@ -42,6 +45,7 @@ class SecurityConfig(
 		return http.build()
 	}
 
+	//BCrypt 방식을 통한 암호화를 위한 bean 등록
 	@Bean
 	fun encoder(): PasswordEncoder = BCryptPasswordEncoder()
 }
